@@ -56,3 +56,10 @@ Objetivo: Gerar documento de escopo com objetivo, requisitos funcionais, nao fun
 Estilo: Linguagem tecnica, direta, em Markdown.
 Resposta: Forneca o conteudo completo de docs/escopo-mvp.md.
 
+# Cap02 - Prompt 2 - Backlog por realeases
+
+Contexto: O produto sera entregue em 3 releases: core, qualidade e entrega final.
+Objetivo: Criar backlog minimo com IDs RF/RT e criterios de aceite.
+Estilo: Checklist Markdown.
+Resposta: Conteudo de docs/backlog.md.
+
