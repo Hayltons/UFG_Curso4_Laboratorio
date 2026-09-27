@@ -70,3 +70,15 @@ Objetivo: Gerar diagrama Mermaid de componentes e fluxo de dados.
 Estilo: Simples, legível e versionável.
 Resposta: Apenas bloco Mermaid.
 
+# Cap02 - Prompt 4 - Conventional Commits
+Contexto: Adicionei docs/escopo-mvp.md, docs/arquitetura.md e docs/backlog.md.
+Objetivo: Sugerir 3 mensagens de commit no padrão Conventional Commits.
+Resposta: Apenas as 3 linhas de commit.
+
+# Cap02 - Prompt 5 - Revisão de Planejamento
+Analise este escopo e backlog e responda:
+1) O que esta grande demais para a release inicial?
+2) O que esta faltando para testabilidade?
+3) Quais 3 riscos tecnicos devo mitigar antes da implementacao?
+
+Resposta em bullets curtos.
