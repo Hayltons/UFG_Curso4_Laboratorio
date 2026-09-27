@@ -63,3 +63,10 @@ Objetivo: Criar backlog minimo com IDs RF/RT e criterios de aceite.
 Estilo: Checklist Markdown.
 Resposta: Conteudo de docs/backlog.md.
 
+# Cap02 - Prompt 3 - Arquitetura Mermaid
+
+Contexto: FastAPI com camadas API, Service, Repository e componente PriorityAdvisor.
+Objetivo: Gerar diagrama Mermaid de componentes e fluxo de dados.
+Estilo: Simples, legível e versionável.
+Resposta: Apenas bloco Mermaid.
+
