@@ -1,3 +1,6 @@
+# PROMPTS CAP01
+
+
 # Prompt1- .gitignore
 
 Contexto: Estou iniciando uma API Python com FastAPI em um repositório de produto.
@@ -41,3 +44,15 @@ Contexto: Adicionei estrutura inicial, README, .gitignore e endpoint /health. Ve
 Objetivo: Gerar uma mensagem de commit no padrão Conventional Commits.
 
 Resposta: Apenas uma linha de commit.
+
+# ----------------------------------------------------------------------------
+
+# PROMPTS CAP02
+
+# Cap02 - Prompt 1 - Escopo MVP
+
+Contexto: MVP de micro-API de tarefas para uso de equipe interna.
+Objetivo: Gerar documento de escopo com objetivo, requisitos funcionais, nao funcionais e fora de escopo.
+Estilo: Linguagem tecnica, direta, em Markdown.
+Resposta: Forneca o conteudo completo de docs/escopo-mvp.md.
+
