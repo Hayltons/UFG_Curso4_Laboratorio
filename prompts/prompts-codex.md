@@ -82,3 +82,48 @@ Analise este escopo e backlog e responda:
 3) Quais 3 riscos tecnicos devo mitigar antes da implementacao?
 
 Resposta em bullets curtos.
+
+# Cap03 - Prompt 1 - Modelo Pydantic
+Contexto: API de tarefas em FastAPI para uso interno de equipe.
+Objetivo: Gerar modelos TaskCreate, TaskUpdate e TaskOut com tipagem e validações.
+Estilo: Pydantic v2, codigo limpo e docstrings curtas.
+Resposta: Apenas codigo de app/models/task.py.
+
+# Cap03 - Prompt 2 - Repositório Inicial
+Contexto: Preciso de persistencia inicial enxuta para viabilizar a primeira release.
+Objetivo: Criar TaskRepository em memoria com create, list, get_by_id, update e delete.
+Estilo: Python tipado, sem dependencias externas.
+Resposta: Codigo completo de app/repositories/task_repository.py.
+
+# Cap03 - Prompt 3 - Service com regra de prioridade
+Contexto: A prioridade da tarefa pode ser sugerida automaticamente.
+Objetivo: Criar TaskService que use TaskRepository e PriorityAdvisor.
+Estilo: Separar regra de negocio da camada de API.
+Resposta: Codigo de app/services/task_service.py. Pode criar o código
+
+# Cap03 - Prompt 4 - PriorityAdvisor com fallback
+Contexto: Quero rodar sem custo de API quando nao houver chave.
+Objetivo: Implementar PriorityAdvisor com heuristica local e chamada opcional a LLM quando OPENAI_API_KEY existir.
+Estilo: Falha segura, timeout e fallback obrigatorio.
+Resposta: Codigo de app/services/priority_advisor.py.
+
+# Cap03 - Prompt 4 EXTRA - complemento
+Pode criar o arquivo app/services/priority_advisor.py com o código sugerido, mas verifique, também,e ajuste se for o caso,  se não há código repetido para o PriorityAdvisor no app\services\task_service.py, pois este último apenas utiliza o que foi definido no primeiro.
+
+# Cap03 - Prompt 5 - Rotas CRUD
+Contexto: FastAPI com TaskService pronto.
+Objetivo: Criar rotas POST/GET/PUT/DELETE para tarefas com status HTTP corretos e tratamento de 404.
+Estilo: Router separado em app/api/task_routes.py.
+Resposta: Apenas o codigo do arquivo mas pode criar o arquivo
+
+# Cap03 - Prompt 6 - Revisao tecnica
+Revise os arquivos do core da API e responda:
+1) Quais pontos de acoplamento estao altos?
+2) Onde faltam validacoes?
+3) Quais 5 testes devo priorizar na proxima release?
+Resposta em checklist.
+
+# Cap03 - Prompt Extra - Commits
+Contexto: Adicionei app\api\task_routes.py, app\repositories\task_repository.py, app\services\priority_advisor.py, app\services\task_service.py e docs\revisao_cap03.md. Também inclui prompts em prompts\prompts-codex.md.
+Objetivo: Sugerir mensagens de commit no padrão Conventional Commits para cada arquivo incluído ou alterado.
+Resposta: criar as linhas de commit e fazer o commit.
