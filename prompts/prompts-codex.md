@@ -162,5 +162,42 @@ Ok. agora que temos bastantes testes podemos executá-los para verificar se est�
 
 # Cap04 - Prompt EXTRA - Commits
 Contexto: foram criados vários arquivos de teste, também o AGENTS.md e atualização do README.md, além do prompts\prompts-codex.md e do app\main.py em função de refatorações.
-Objetivo: Sugerir mensagens de commit no padrão Conventional Commits para cada arquivo incluído ou alterado.
+Objetivo: Suger
+ir mensagens de commit no padrão Conventional Commits para cada arquivo incluído ou alterado.
+Resposta: criar as linhas de commit e fazer o commit.
+
+# Cap05 - Prompt EXTRA - Rodar a API
+Eu gostaria de ver a API funcionando. Rode a API e mostre alguns casos de cliente criando e listando tasks
+
+# Cap05 - Prompt EXTRA - Testar endpoints sem cobertura de teste
+Verifique e informe se há endpoints não testados e amplie a cobertura de testes se necessário. Pergunte antes fazer alteração nos arquivos de teste, se for preciso.
+
+# Cap05 - Prompt EXTRA - Commits
+Contexto: Foi aumentada a cobertura de testes em tests\test_task_routes.py
+Objetivo: Sugerir mensagens de commit no padrão Conventional Commits.
+Resposta: criar as linhas de commit e fazer o commit.
+
+
+# Cap05 - Prompt 1 - Makefile
+Contexto: Projeto FastAPI com comandos de instalar dependencias, executar API e rodar testes.
+Objetivo: Gerar Makefile com targets install, run e test.
+Estilo: Simples e portavel.
+Resposta: Conteudo completo de Makefile e crie o arquivo.
+
+# Cap05 - Prompt 2 - .env.example
+Contexto: O projeto usa integracao opcional de LLM.
+Objetivo: Criar arquivo .env.example com variaveis necessarias e valores placeholder seguros.
+Estilo: Minimalista.
+Resposta: Crie o arquivo e salve-o. Além disso, verifique se as regras do arquivo .gitignore permitem que o arquivo .env.example fique visível e seja incluído em commits mas mantendo as regras de ignorar os demais arquivos .env ouo sensíveis.
+
+# Cap05 - Prompt 3 - Revisao de README
+Analise meu README e responda:
+1) O que falta para ser reproduzivel em maquina limpa?
+2) Quais secoes estao fracas para onboarding tecnico?
+3) Como melhorar a secao de uso da IA?
+Resposta em checklist objetivo.
+
+# Cap05 - Prompt EXTRA - Commits
+Contexto: foram feitas alterações no projeto incluindo o Makefile, .env.example, alterado o .gitignore e README. Se houver mais algo inclua.
+Objetivo: Sugerir mensagens de commit no padrão Conventional Commits para cada arquivo alterado.
 Resposta: criar as linhas de commit e fazer o commit.
