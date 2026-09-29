@@ -127,3 +127,40 @@ Resposta em checklist.
 Contexto: Adicionei app\api\task_routes.py, app\repositories\task_repository.py, app\services\priority_advisor.py, app\services\task_service.py e docs\revisao_cap03.md. Também inclui prompts em prompts\prompts-codex.md.
 Objetivo: Sugerir mensagens de commit no padrão Conventional Commits para cada arquivo incluído ou alterado.
 Resposta: criar as linhas de commit e fazer o commit.
+
+# Cap04 - Prompt 1 - Testes do service
+Contexto: Tenho TaskService com CRUD de tarefas.
+Objetivo: Gerar suite Pytest cobrindo criacao, listagem, atualizacao, exclusao e caso de erro por ID inexistente.
+Estilo: Testes claros, nomes descritivos e fixtures simples.
+Resposta: Codigo completo de tests/test_task_service.py. Pode criar o arquivo de código gerado
+
+# Cap04 - Prompt 2 - Testes do PriorityAdvisor
+Contexto: PriorityAdvisor possui heuristica local e fallback quando chamada externa falha.
+Objetivo: Gerar testes para os tres niveis de prioridade e para fallback.
+Estilo: Usar monkeypatch quando necessario.
+Resposta: Codigo de tests/test_priority_advisor.py. Pode criar o arquivo de código gerado
+
+# Cap04 - Prompt 3 - Testes de API
+Contexto: API FastAPI com endpoints CRUD de /tasks.
+Objetivo: Criar testes de rota com TestClient para status 201, 200, 204 e 404.
+Estilo: Isolar dependencia de repositorio para evitar estado global entre testes.
+Resposta: Codigo de tests/test_task_routes.py.Pode criar o arquivo de código gerado
+
+# Cap04 - Prompt 4 - Refatoracao DRY/SRP
+Analise os arquivos app/services/task_service.py e app/repositories/task_repository.py.
+Objetivo: Sugerir refatoracao com foco em DRY e SRP sem mudar comportamento externo.
+Resposta: 1) lista de mudancas propostas 2) patch sugerido por arquivo.
+
+# Cap04 - Prompt 5 - README final tecnico
+Contexto: MVP de micro-API de tarefas com prioridade assistida por IA.
+Objetivo: Gerar README completo com instalacao, execucao, testes, arquitetura, uso da IA, limitacoes e proximos passos.
+Estilo: Markdown profissional e objetivo.
+Resposta: README inteiro. Pode alterar o arquivo existente
+
+# Cap04 - Prompt EXTRA - Rodar testes neste ponto
+Ok. agora que temos bastantes testes podemos executá-los para verificar se está tudo correto. Avalie
+
+# Cap04 - Prompt EXTRA - Commits
+Contexto: foram criados vários arquivos de teste, também o AGENTS.md e atualização do README.md, além do prompts\prompts-codex.md e do app\main.py em função de refatorações.
+Objetivo: Sugerir mensagens de commit no padrão Conventional Commits para cada arquivo incluído ou alterado.
+Resposta: criar as linhas de commit e fazer o commit.
