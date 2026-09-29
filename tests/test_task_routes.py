@@ -1,6 +1,7 @@
 """Testes de integração das rotas de tarefas."""
 
 from collections.abc import Generator
+from datetime import datetime, timezone
 
 import pytest
 from fastapi.testclient import TestClient
@@ -38,6 +39,17 @@ def test_application_exposes_health_and_task_routes(client: TestClient) -> None:
     assert client.get("/api/v1/tasks").status_code == 200
 
 
+def test_health_returns_ok_status_and_utc_timestamp(client: TestClient) -> None:
+    """Retorna o contrato de saúde com timestamp em UTC."""
+    response = client.get("/health")
+    payload = response.json()
+    timestamp = datetime.fromisoformat(payload["timestamp"].replace("Z", "+00:00"))
+
+    assert response.status_code == 200
+    assert payload["status"] == "ok"
+    assert timestamp.tzinfo == timezone.utc
+
+
 def test_create_task_returns_201(client: TestClient) -> None:
     """Cria uma tarefa e retorna HTTP 201."""
     response = client.post(
@@ -50,6 +62,15 @@ def test_create_task_returns_201(client: TestClient) -> None:
     assert response.json()["priority"] == "alta"
 
 
+def test_create_task_applies_default_status_and_priority(client: TestClient) -> None:
+    """Aplica valores padrão quando status e prioridade não são enviados."""
+    response = client.post("/api/v1/tasks", json={"title": "Tarefa padrão"})
+
+    assert response.status_code == 201
+    assert response.json()["status"] == "pendente"
+    assert response.json()["priority"] == "media"
+
+
 def test_list_tasks_returns_200_with_created_tasks(client: TestClient) -> None:
     """Lista as tarefas cadastradas e retorna HTTP 200."""
     created_task = create_task(client)
@@ -58,6 +79,17 @@ def test_list_tasks_returns_200_with_created_tasks(client: TestClient) -> None:
 
     assert response.status_code == 200
     assert [task["id"] for task in response.json()] == [created_task["id"]]
+
+
+def test_get_task_by_id_returns_200_with_task_data(client: TestClient) -> None:
+    """Consulta uma tarefa existente pelo identificador."""
+    created_task = create_task(client, title="Consultar por identificador")
+
+    response = client.get(f"/api/v1/tasks/{created_task['id']}")
+
+    assert response.status_code == 200
+    assert response.json()["id"] == created_task["id"]
+    assert response.json()["title"] == "Consultar por identificador"
 
 
 def test_update_task_returns_200(client: TestClient) -> None:
@@ -72,6 +104,33 @@ def test_update_task_returns_200(client: TestClient) -> None:
     assert response.status_code == 200
     assert response.json()["status"] == "concluida"
     assert response.json()["priority"] == "alta"
+
+
+def test_update_task_preserves_unsent_fields_and_refreshes_timestamp(
+    client: TestClient,
+) -> None:
+    """Preserva campos ausentes na atualização e renova a data de alteração."""
+    created_response = client.post(
+        "/api/v1/tasks",
+        json={
+            "title": "Revisar proposta",
+            "description": "Versão inicial.",
+            "priority": "baixa",
+        },
+    )
+    created_task = created_response.json()
+
+    response = client.put(
+        f"/api/v1/tasks/{created_task['id']}",
+        json={"status": "em_andamento"},
+    )
+
+    assert response.status_code == 200
+    assert response.json()["title"] == "Revisar proposta"
+    assert response.json()["description"] == "Versão inicial."
+    assert response.json()["priority"] == "baixa"
+    assert response.json()["created_at"] == created_task["created_at"]
+    assert response.json()["updated_at"] >= created_task["updated_at"]
 
 
 def test_delete_task_returns_204_and_then_404(client: TestClient) -> None:
@@ -123,3 +182,10 @@ def test_task_routes_return_422_for_invalid_payloads(client: TestClient) -> None
     assert invalid_title.status_code == 422
     assert invalid_priority.status_code == 422
     assert empty_update.status_code == 422
+
+
+def test_task_routes_return_422_for_invalid_uuid(client: TestClient) -> None:
+    """Rejeita identificadores que não seguem o formato UUID."""
+    response = client.get("/api/v1/tasks/not-a-uuid")
+
+    assert response.status_code == 422
