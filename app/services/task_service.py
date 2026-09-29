@@ -1,10 +1,29 @@
 """Regras de negócio para gerenciamento de tarefas."""
 
+from typing import Protocol
 from uuid import UUID
 
 from app.models.task import TaskCreate, TaskOut, TaskPriority, TaskUpdate
-from app.repositories.task_repository import TaskRepository
-from app.services.priority_advisor import PriorityAdvisor
+
+
+class TaskRepositoryProtocol(Protocol):
+    """Contrato de persistência usado pelo serviço."""
+
+    def create(self, task_data: TaskCreate) -> TaskOut: ...
+
+    def list(self) -> list[TaskOut]: ...
+
+    def get_by_id(self, task_id: UUID) -> TaskOut | None: ...
+
+    def update(self, task_id: UUID, task_data: TaskUpdate) -> TaskOut | None: ...
+
+    def delete(self, task_id: UUID) -> bool: ...
+
+
+class PriorityAdvisorProtocol(Protocol):
+    """Contrato para sugestão de prioridade."""
+
+    def suggest(self, *, title: str, description: str | None) -> TaskPriority: ...
 
 
 class TaskService:
@@ -12,8 +31,8 @@ class TaskService:
 
     def __init__(
         self,
-        repository: TaskRepository,
-        priority_advisor: PriorityAdvisor,
+        repository: TaskRepositoryProtocol,
+        priority_advisor: PriorityAdvisorProtocol,
     ) -> None:
         self._repository = repository
         self._priority_advisor = priority_advisor
@@ -26,11 +45,15 @@ class TaskService:
     ) -> TaskOut:
         """Cria uma tarefa, opcionalmente aplicando a prioridade sugerida."""
         if use_suggested_priority:
-            task_data = task_data.model_copy(
-                update={"priority": self.suggest_priority(task_data)}
-            )
+            task_data = self._apply_suggested_priority(task_data)
 
         return self._repository.create(task_data)
+
+    def _apply_suggested_priority(self, task_data: TaskCreate) -> TaskCreate:
+        """Retorna os dados com a prioridade sugerida."""
+        return task_data.model_copy(
+            update={"priority": self.suggest_priority(task_data)}
+        )
 
     def list_tasks(self) -> list[TaskOut]:
         """Lista as tarefas cadastradas."""
