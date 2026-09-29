@@ -14,15 +14,12 @@ class TaskRepository:
 
     def create(self, task_data: TaskCreate) -> TaskOut:
         """Cria e armazena uma nova tarefa."""
-        now = datetime.now(timezone.utc)
+        now = self._utc_now()
         task = TaskOut(
             id=uuid4(),
-            title=task_data.title,
-            description=task_data.description,
-            status=task_data.status,
-            priority=task_data.priority,
             created_at=now,
             updated_at=now,
+            **task_data.model_dump(),
         )
         self._tasks[task.id] = task
         return task
@@ -44,7 +41,7 @@ class TaskRepository:
         updated_task = task.model_copy(
             update={
                 **task_data.model_dump(exclude_unset=True),
-                "updated_at": datetime.now(timezone.utc),
+                "updated_at": self._utc_now(),
             }
         )
         self._tasks[task_id] = updated_task
@@ -52,8 +49,9 @@ class TaskRepository:
 
     def delete(self, task_id: UUID) -> bool:
         """Exclui uma tarefa e informa se ela existia."""
-        if task_id not in self._tasks:
-            return False
+        return self._tasks.pop(task_id, None) is not None
 
-        del self._tasks[task_id]
-        return True
+    @staticmethod
+    def _utc_now() -> datetime:
+        """Retorna o horário atual em UTC."""
+        return datetime.now(timezone.utc)
