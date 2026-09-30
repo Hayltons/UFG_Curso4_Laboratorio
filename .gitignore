@@ -33,3 +33,6 @@ htmlcov/
 *.swp
 *.swo
 *~
+
+# Local presentation aids
+docs/roteiro-demo-mvp.md
